@@ -1,0 +1,14 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  width: 100vw;
+  padding: 0px;
+  margin: 0px;
+}
+
+img {
+  height: 5vh;
+  width: 10vh;
+  background: rgba(255, 255, 255, 0.4);
+}
