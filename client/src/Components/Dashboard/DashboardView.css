@@ -67,3 +67,7 @@ body {
   right: 30px;
   top: 60px;
 }
+
+.chartsss {
+  z-index: 50000000;
+}

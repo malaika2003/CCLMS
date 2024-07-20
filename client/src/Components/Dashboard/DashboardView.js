@@ -2,6 +2,7 @@ import './DashboardView.css'
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import profilePic from '../../images/profile-pic.jpg'; 
+import Chart from '../chartss.js';
 
 const DashboardView = ({ setAuth }) => {
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ const DashboardView = ({ setAuth }) => {
       setLobby(parseData.lobby);
       setAuthority(parseData.authority);
       setDesignation(parseData.designation);
-      console.log(name,email,divison,lobby,authority,designation);
+    
     } catch (err) {
       console.error(err.message);
     }
@@ -49,16 +50,20 @@ const DashboardView = ({ setAuth }) => {
 
   return (
     <div className='Dashboard'>
+      
     <div className="header">
       <div className="header-content">
         <h1>Reports</h1>
+        
         <div className="logout-section">
           <button onClick={e => logout(e)} className="btn btn-primary">
           Logout
           </button>
           <img src={profilePic} alt="Profile" className="profile-pic" onClick={async () => await setOpen(!open)} />
         </div>
+        
       </div>
+      
     </div>
     {
       open && 
@@ -73,7 +78,9 @@ const DashboardView = ({ setAuth }) => {
             </div>
       </div>
     }
+    <Chart className="chartsss"/>
     </div>
+    
   );
 };
 

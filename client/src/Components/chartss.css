@@ -1,0 +1,7 @@
+.currLink:hover {
+  cursor: pointer;
+}
+.currLink.active {
+  text-decoration: underline;
+  font-weight: bold;
+}
