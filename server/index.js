@@ -30,13 +30,60 @@ app.get("/links", async (req, res) => {
   app.get("/data/:link_id", async (req, res) => {
     try {
       const { link_id } = req.params;
-      const result = await pool.query('SELECT to_stn, hq_rest, os_rest, running_duration, duty_duration FROM link_detail WHERE link_id = $1', [link_id]);
+      const result = await pool.query('SELECT crew_no, to_stn, from_stn, sign_on_time, departure_time, arrival_time, sign_off_time FROM link_detail WHERE link_id = $1', [link_id]);
       res.json(result.rows);
     } catch (error) {
       console.error(`Error fetching data for link_id ${link_id}:`, error);
       res.status(500).send('Server Error');
     }
   });
+
+
+  app.get("/data", async (req, res) => {
+    try {
+      
+      const result = await pool.query('SELECT crew_no, to_stn, from_stn, sign_on_time, departure_time, arrival_time, sign_off_time FROM link_detail');
+      res.json(result.rows);
+    } catch (error) {
+      console.error(`Error fetching data for link_id`, error);
+      res.status(500).send('Server Error');
+    }
+  });
+
+  app.get('/data/:link_id/:crew', async(req, res) => {
+    try {
+      
+      const { link_id, crew } = req.params;
+      const result = await pool.query('SELECT crew_no, to_stn, from_stn, sign_on_time, departure_time, arrival_time, sign_off_time FROM link_detail WHERE link_id = $1 and crew_no=$2', [link_id,crew]);
+      res.json(result.rows);
+  
+    } catch (error) {
+      console.error(`Error fetching data for link_id`, error);
+      res.status(500).send('Server Error');
+    }
+  });
+
+
+  app.get('/crew/:link_id', async (req, res) => {
+    
+    try{
+    const {link_id} = req.params;
+    const result = await pool.query('SELECT crew_no FROM link_detail WHERE link_id = $1', [link_id]);
+      res.json(result.rows);
+    } catch {
+      console.error(`Error fetching data for link_id ${link_id}:`, error);
+      res.status(500).send('Server Error');
+    }
+  });
+
+
+  app.get('/stations', async (req, res) => {
+    const result = await pool.query('SELECT * from station');
+    
+    res.json(result.rows);
+  });
+
+  
 
   
   
@@ -50,7 +97,7 @@ app.listen(5000,()=>{
 
 
 
-// Function to format decimal time values to HH:MM:SS
+//Function to format decimal time values to HH:MM:SS
 // const formatTime = (decimalTime) => {
 //   const totalSeconds = Math.round(decimalTime * 86400);
 //   const hours = Math.floor(totalSeconds / 3600).toString().padStart(2, '0');
@@ -65,12 +112,12 @@ app.listen(5000,()=>{
 //     const workbook = xlsx.readFile('Link_Detail_TEN_Lobby.xlsx');
     
 //     const linkDetailSheet = workbook.Sheets['Link_Detail'];
-//     const kpiValueSheet = workbook.Sheets['KPI_Value'];
-//     const parameterValueSheet = workbook.Sheets['Parameter_Value'];
+//     // const kpiValueSheet = workbook.Sheets['KPI_Value'];
+//     // const parameterValueSheet = workbook.Sheets['Parameter_Value'];
 
 //     const linkDetailData = xlsx.utils.sheet_to_json(linkDetailSheet);
-//     const kpiValueData = xlsx.utils.sheet_to_json(kpiValueSheet);
-//     const parameterValueData = xlsx.utils.sheet_to_json(parameterValueSheet);
+//     // const kpiValueData = xlsx.utils.sheet_to_json(kpiValueSheet);
+//     // const parameterValueData = xlsx.utils.sheet_to_json(parameterValueSheet);
 
 //     // Insert data into Link_Detail table
 //     for (const row of linkDetailData) {
@@ -93,27 +140,27 @@ app.listen(5000,()=>{
 //       await pool.query(query, values);
 //     }
 
-//     // Insert data into KPI_Value table
-//     for (const row of kpiValueData) {
-//       const query = `INSERT INTO KPI_Value (
-//         KPI_ID, LINK_ID, VALUE, CREATE_DATE, CREATED_BY, KPI_DESC, UOM
-//       ) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-//       const values = [
-//         row.KPI_ID, row.LINK_ID, row.VALUE, row.CREATE_DATE, row.CREATED_BY, row.KPI_DESC, row.UOM
-//       ];
-//       await pool.query(query, values);
-//     }
+//     // // Insert data into KPI_Value table
+//     // for (const row of kpiValueData) {
+//     //   const query = `INSERT INTO KPI_Value (
+//     //     KPI_ID, LINK_ID, VALUE, CREATE_DATE, CREATED_BY, KPI_DESC, UOM
+//     //   ) VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+//     //   const values = [
+//     //     row.KPI_ID, row.LINK_ID, row.VALUE, row.CREATE_DATE, row.CREATED_BY, row.KPI_DESC, row.UOM
+//     //   ];
+//     //   await pool.query(query, values);
+//     // }
 
-//     // Insert data into Parameter_Value table
-//     for (const row of parameterValueData) {
-//       const query = `INSERT INTO Parameter_Value (
-//         PARAMETER_ID, LINK_ID, VALUE, CREATE_DATE, CREATED_BY, PARAMETER_DESC, UOM, GLOBAL_VALUE
-//       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
-//       const values = [
-//         row.PARAMETER_ID, row.LINK_ID, row.VALUE, row.CREATE_DATE, row.CREATED_BY, row.PARAMETER_DESC, row.UOM, row.GLOBAL_VALUE
-//       ];
-//       await pool.query(query, values);
-//     }
+//     // // Insert data into Parameter_Value table
+//     // for (const row of parameterValueData) {
+//     //   const query = `INSERT INTO Parameter_Value (
+//     //     PARAMETER_ID, LINK_ID, VALUE, CREATE_DATE, CREATED_BY, PARAMETER_DESC, UOM, GLOBAL_VALUE
+//     //   ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+//     //   const values = [
+//     //     row.PARAMETER_ID, row.LINK_ID, row.VALUE, row.CREATE_DATE, row.CREATED_BY, row.PARAMETER_DESC, row.UOM, row.GLOBAL_VALUE
+//     //   ];
+//     //   await pool.query(query, values);
+//     // }
 
 //     console.log('Data insertion complete');
 //   } catch (error) {

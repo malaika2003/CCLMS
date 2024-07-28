@@ -5,3 +5,20 @@
   text-decoration: underline;
   font-weight: bold;
 }
+
+h3 {
+  color: #c80036;
+  font-family: "Georgia", Times, serif;
+}
+h1 {
+  color: #c80036;
+  font-family: "Times New Roman", Times, serif;
+  text-align: center;
+}
+
+.legend {
+  display: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: red;
+}
