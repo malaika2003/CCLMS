@@ -33,7 +33,7 @@ const DashboardView = ({ setAuth }) => {
     }
   };
 
-  const logout = async e => {
+  const logout = e => {
     e.preventDefault();
     try {
       localStorage.removeItem("token");
@@ -53,13 +53,13 @@ const DashboardView = ({ setAuth }) => {
       
     <div className="header">
       <div className="header-content">
-        <h1>Reports</h1>
+        <h1>Graphical Representations of CCLMS Optimised Links</h1>
         
         <div className="logout-section">
           <button onClick={e => logout(e)} className="btn btn-primary">
           Logout
           </button>
-          <img src={profilePic} alt="Profile" className="profile-pic" onClick={async () => await setOpen(!open)} />
+          <img src={profilePic} alt="Profile" className="profile-pic" onClick={() =>setOpen(!open)} />
         </div>
         
       </div>

@@ -22,3 +22,9 @@ h1 {
   width: 100vw;
   background-color: red;
 }
+
+.scale {
+  color: #433d8b;
+  font-weight: bold;
+  text-align-last: end;
+}

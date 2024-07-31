@@ -107,7 +107,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Label } from 'recharts';
 import './chartss.css';
 
 function Chart() {
@@ -142,29 +142,30 @@ function Chart() {
       axios.get(`http://localhost:5000/data/${linkId}`).then(response => {
         const formattedData = [];
         const uniqueCrew = new Set();
-        
+      
         response.data.forEach((row, index) => {
           const fromStation = stations.find(st => st.station_id === row.from_stn);
           const toStation = stations.find(st => st.station_id === row.to_stn);
-
-          // Sign-on time
+          
+          
           if (!uniqueCrew.has(row.crew_no)) {
             uniqueCrew.add(row.crew_no);
 
           }
-          if (row.sign_on_time) {
-            formattedData.push({
-              station: fromStation ? fromStation.station_code : row.from_stn,
-              timestamp: row.sign_on_time,
-              rest: 'sign_on',
-              crew_id: row.crew_id,
-            });
-          }
+          // Sign-on time
+          // if (row.sign_on_time) {
+          //   formattedData.push({
+          //     station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
+          //     timestamp: row.sign_on_time,
+          //     rest: 'sign_on',
+          //     crew_id: row.crew_id,
+          //   });
+          // }
 
           // Departure from the from station
           if (row.departure_time) {
             formattedData.push({
-              station: fromStation ? fromStation.station_code : row.from_stn,
+              station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
               timestamp: row.departure_time,
               rest: 'traveling',
               crew_id: row.crew_id,
@@ -174,7 +175,7 @@ function Chart() {
           // Arrival at the to station
           if (row.arrival_time) {
             formattedData.push({
-              station: toStation ? toStation.station_code : row.to_stn,
+              station: toStation ? toStation.station_code+`(${row.to_stn})`: row.to_stn,
               timestamp: row.arrival_time,
               rest: 'traveling',
               crew_id: row.crew_id,
@@ -182,39 +183,40 @@ function Chart() {
           }
 
           // Sign-off time
-          if (row.sign_off_time) {
-            formattedData.push({
-              station: toStation ? toStation.station_code : row.to_stn,
-              timestamp: row.sign_off_time,
-              rest: row.rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-              crew_id: row.crew_id,
-            });
-          }
+          // if (row.sign_off_time) {
+          //   formattedData.push({
+          //     station: toStation ? toStation.station_code+`(${row.to_stn})` : row.to_stn,
+          //     timestamp: row.sign_off_time,
+          //     rest: 'sign_off', // Assuming row.rest is 'hq_rest' or 'os_rest'
+          //     crew_id: row.crew_id,
+          //   });
+          // }
           
           // Rest time between rows
-          if (index > 0) {
-            const previousRow = response.data[index - 1];
-            if (previousRow.sign_off_time && row.sign_on_time) {
-              formattedData.push({
-                station: toStation ? toStation.station_code : row.to_stn,
-                timestamp: previousRow.sign_off_time,
-                rest: previousRow.rest, // Assuming previousRow.rest is 'hq_rest' or 'os_rest'
-                crew_id: previousRow.crew_id,
-              });
-              formattedData.push({
-                station: fromStation ? fromStation.station_code : row.from_stn,
-                timestamp: row.sign_on_time,
-                rest: row.hq_rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-                crew_id: row.crew_id,
-              });
-            }
-          }
+          // if (index > 0) {
+          //   const previousRow = response.data[index - 1];
+          //   if (previousRow.sign_off_time && row.sign_on_time) {
+          //     formattedData.push({
+          //       station: toStation ? toStation.station_code : row.to_stn,
+          //       timestamp: previousRow.sign_off_time,
+          //       rest: previousRow.rest, // Assuming previousRow.rest is 'hq_rest' or 'os_rest'
+          //       crew_id: previousRow.crew_id,
+          //     });
+          //     formattedData.push({
+          //       station: fromStation ? fromStation.station_code : row.from_stn,
+          //       timestamp: row.sign_on_time,
+          //       rest: row.hq_rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
+          //       crew_id: row.crew_id,
+          //     });
+          //   }
+          // }
         });
 
         // Sort the data by timestamp
         formattedData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
         setData(formattedData);
+      
         setCrewNumbers(Array.from(uniqueCrew));
       }).catch(error => {
         console.error("There was an error fetching the data!", error);
@@ -245,21 +247,21 @@ function Chart() {
           const fromStation = stations.find(st => st.station_id === row.from_stn);
           const toStation = stations.find(st => st.station_id === row.to_stn);
 
-          // Sign-on time
+          // // Sign-on time
         
-          if (row.sign_on_time) {
-            formattedData.push({
-              station: fromStation ? fromStation.station_code : row.from_stn,
-              timestamp: row.sign_on_time,
-              rest: 'sign_on',
-              crew_id: row.crew_id,
-            });
-          }
+          // if (row.sign_on_time) {
+          //   formattedData.push({
+          //     station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
+          //     timestamp: row.sign_on_time,
+          //     rest: 'sign_on',
+          //     crew_id: row.crew_id,
+          //   });
+          // }
 
           // Departure from the from station
           if (row.departure_time) {
             formattedData.push({
-              station: fromStation ? fromStation.station_code : row.from_stn,
+              station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
               timestamp: row.departure_time,
               rest: 'traveling',
               crew_id: row.crew_id,
@@ -269,41 +271,41 @@ function Chart() {
           // Arrival at the to station
           if (row.arrival_time) {
             formattedData.push({
-              station: toStation ? toStation.station_code : row.to_stn,
+              station: toStation ? toStation.station_code+`(${row.to_stn})` : row.to_stn,
               timestamp: row.arrival_time,
               rest: 'traveling',
               crew_id: row.crew_id,
             });
           }
 
-          // Sign-off time
-          if (row.sign_off_time) {
-            formattedData.push({
-              station: toStation ? toStation.station_code : row.to_stn,
-              timestamp: row.sign_off_time,
-              rest: row.rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-              crew_id: row.crew_id,
-            });
-          }
+          // // Sign-off time
+          // if (row.sign_off_time) {
+          //   formattedData.push({
+          //     station: toStation ? toStation.station_code+`(${row.to_stn})` : row.to_stn,
+          //     timestamp: row.sign_off_time,
+          //     rest: row.rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
+          //     crew_id: row.crew_id,
+          //   });
+          // }
           
           // Rest time between rows
-          if (index > 0) {
-            const previousRow = response.data[index - 1];
-            if (previousRow.sign_off_time && row.sign_on_time) {
-              formattedData.push({
-                station: toStation ? toStation.station_code : row.to_stn,
-                timestamp: previousRow.sign_off_time,
-                rest: previousRow.rest, // Assuming previousRow.rest is 'hq_rest' or 'os_rest'
-                crew_id: previousRow.crew_id,
-              });
-              formattedData.push({
-                station: fromStation ? fromStation.station_code : row.from_stn,
-                timestamp: row.sign_on_time,
-                rest: row.hq_rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-                crew_id: row.crew_id,
-              });
-            }
-          }
+          // if (index > 0) {
+          //   const previousRow = response.data[index - 1];
+          //   if (previousRow.sign_off_time && row.sign_on_time) {
+          //     formattedData.push({
+          //       station: toStation ? toStation.station_code : row.to_stn,
+          //       timestamp: previousRow.sign_off_time,
+          //       rest: previousRow.rest, // Assuming previousRow.rest is 'hq_rest' or 'os_rest'
+          //       crew_id: previousRow.crew_id,
+          //     });
+          //     formattedData.push({
+          //       station: fromStation ? fromStation.station_code : row.from_stn,
+          //       timestamp: row.sign_on_time,
+          //       rest: row.hq_rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
+          //       crew_id: row.crew_id,
+          //     });
+          //   }
+          // }
         });
 
         // Sort the data by timestamp
@@ -319,7 +321,18 @@ function Chart() {
     }
   };
 
- 
+  const CustomDot = (props) => {
+    const { cx, cy } = props;
+  
+    return (
+      <svg x={cx -12 } y={cy - 10} width={20} height={20} viewBox="0 0 1024 1024">
+        <path fill="#2E236C" d="M512 192l320 320H192z" transform="rotate(90 512 512)" />
+      </svg>
+    );
+  };
+
+
+
   
 
 
@@ -335,7 +348,7 @@ function Chart() {
             </option>
           ))}
         </select>
-        {console.log(crewNumbers)}
+        
         {selectedLink && crewNumbers.length > 0 && (
           <>
             <h3>Crew</h3>
@@ -351,36 +364,40 @@ function Chart() {
           </>
         )}
       </div>
-      <div style={{ width: '80%', padding: '10px' }}>
+      <div style={{ width: '85%', padding: '10px' }}>
         <h1>Report for Data Visualization of Link {activeLink}</h1>
+        <div className='scale'> 
+          <p>X-axis: Stations</p>
+          <p>Y-axis: Timestamps (hours)</p>
+        </div>
         <div style={{ width: '2000px', padding: '10px', overflow: 'scroll' }}>
           <LineChart
             width={6000}
             height={520}
             data={data}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 5, right: 700, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="timestamp" height={70}>
-              <Label value="Time Stamps" style={{ fontSize: '25px' }} />
+            <XAxis dataKey="timestamp" height={80}>
+              <Label value="Time Stamps(hours)" position="insideBottomLeft" style={{ fontSize: '25px'}} />
             </XAxis>
-            <YAxis dataKey="station" width={70} type="category">
-              <Label angle='-90' value='Stations' position="insideLeft" offset={4} style={{ fontSize: '25px' }} />
+            <YAxis dataKey="station" width={130} type="category">
+              <Label angle='-90' value='Stations' position="insideLeft" offset={0} style={{ fontSize: '25px' }} />
             </YAxis>
             <Tooltip />
-            <Legend align="left" verticalAlign="top" height={36} />
+            {/* <Legend align="left" verticalAlign="top" height={80} /> */}
             
             <Line
               type="linear"
               dataKey="station"
-              dot={false}
+              dot={<CustomDot />}
               activeDot={{ r: 8 }}
               isAnimationActive={false}
               points={data}
               label={false}
               layout="vertical"
               connectNulls
-              strokeWidth={4} // Increase this value to make the line thicker
+              strokeWidth={5} // Increase this value to make the line thicker
             />
            
           </LineChart>
