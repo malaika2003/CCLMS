@@ -35,7 +35,7 @@ const Login = ({setAuth}) => {
     e.preventDefault();
     try {
       const body = { email, password };
-      const response = await fetch("https://cclms.onrender.com/authen/login", {
+      const response = await fetch("http://localhost:5000/authen/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json"

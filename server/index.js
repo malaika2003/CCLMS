@@ -10,7 +10,7 @@ import xlsx from 'xlsx';
 dotenv.config();
 
 const app = express();
-const port=process.env.PORT || 5432
+
 //middleware
 app.use(express.json());
 app.use(cors());
@@ -89,8 +89,8 @@ app.get("/links", async (req, res) => {
   
 
 
-app.listen(port,()=>{
-    console.log(`server is running at ${port}`);
+app.listen(5000,()=>{
+    console.log("server is running at 5000");
 })
 
 

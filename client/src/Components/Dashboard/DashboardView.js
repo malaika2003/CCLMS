@@ -15,7 +15,7 @@ const DashboardView = ({ setAuth }) => {
 
   const getProfile = async () => {
     try {
-      const res = await fetch("https://cclms.onrender.com/dashboard/", {
+      const res = await fetch("http://localhost:5000/dashboard/", {
         method: "POST",
         headers: { jwt_token: localStorage.token }
       });
