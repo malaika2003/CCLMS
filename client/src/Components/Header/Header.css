@@ -5,6 +5,10 @@
   width: 100vw;
   padding: 0px;
   margin: 0px;
+  color: white;
+  p {
+    margin: 20px;
+  }
 }
 
 img {
