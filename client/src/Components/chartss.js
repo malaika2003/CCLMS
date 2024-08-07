@@ -120,11 +120,11 @@ function Chart() {
   const [selectedCrew, setSelectedCrew] = useState("");
 
   useEffect(() => {
-    axios.get('http://localhost:5000/links').then(response => {
+    axios.get('https://cclms.onrender.com/links').then(response => {
       setLinks(response.data);
     });
 
-    axios.get('http://localhost:5000/stations').then(response => {
+    axios.get('https://cclms.onrender.com/stations').then(response => {
       setStations(response.data);
     });
   }, []);
@@ -139,7 +139,7 @@ function Chart() {
     if (linkId) {
       
 
-      axios.get(`http://localhost:5000/data/${linkId}`).then(response => {
+      axios.get(`https://cclms.onrender.com/data/${linkId}`).then(response => {
         const formattedData = [];
         const uniqueCrew = new Set();
       
@@ -240,7 +240,7 @@ function Chart() {
     if (linkId && crew) {
       
 
-      axios.get(`http://localhost:5000/data/${linkId}/${crew}`).then(response => {
+      axios.get(`https://cclms.onrender.com/data/${linkId}/${crew}`).then(response => {
         const formattedData = [];
       
         response.data.forEach((row, index) => {

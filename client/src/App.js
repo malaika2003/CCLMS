@@ -18,7 +18,7 @@ import Login from './Components/Login/Login.js';
 function App() {
   const checkAuthenticated = async () => {
     try {
-      const res = await fetch("http://localhost:5000/authen/verify", {
+      const res = await fetch("https://cclms.onrender.com/authen/verify", {
         method: "POST",
         headers: { jwt_token: localStorage.token }
       });
