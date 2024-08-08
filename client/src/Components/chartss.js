@@ -152,15 +152,7 @@ function Chart() {
             uniqueCrew.add(row.crew_no);
 
           }
-          // Sign-on time
-          // if (row.sign_on_time) {
-          //   formattedData.push({
-          //     station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
-          //     timestamp: row.sign_on_time,
-          //     rest: 'sign_on',
-          //     crew_id: row.crew_id,
-          //   });
-          // }
+         
 
           // Departure from the from station
           if (row.departure_time) {
@@ -182,34 +174,7 @@ function Chart() {
             });
           }
 
-          // Sign-off time
-          // if (row.sign_off_time) {
-          //   formattedData.push({
-          //     station: toStation ? toStation.station_code+`(${row.to_stn})` : row.to_stn,
-          //     timestamp: row.sign_off_time,
-          //     rest: 'sign_off', // Assuming row.rest is 'hq_rest' or 'os_rest'
-          //     crew_id: row.crew_id,
-          //   });
-          // }
           
-          // Rest time between rows
-          // if (index > 0) {
-          //   const previousRow = response.data[index - 1];
-          //   if (previousRow.sign_off_time && row.sign_on_time) {
-          //     formattedData.push({
-          //       station: toStation ? toStation.station_code : row.to_stn,
-          //       timestamp: previousRow.sign_off_time,
-          //       rest: previousRow.rest, // Assuming previousRow.rest is 'hq_rest' or 'os_rest'
-          //       crew_id: previousRow.crew_id,
-          //     });
-          //     formattedData.push({
-          //       station: fromStation ? fromStation.station_code : row.from_stn,
-          //       timestamp: row.sign_on_time,
-          //       rest: row.hq_rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-          //       crew_id: row.crew_id,
-          //     });
-          //   }
-          // }
         });
 
         // Sort the data by timestamp
@@ -247,18 +212,7 @@ function Chart() {
           const fromStation = stations.find(st => st.station_id === row.from_stn);
           const toStation = stations.find(st => st.station_id === row.to_stn);
 
-          // // Sign-on time
-        
-          // if (row.sign_on_time) {
-          //   formattedData.push({
-          //     station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
-          //     timestamp: row.sign_on_time,
-          //     rest: 'sign_on',
-          //     crew_id: row.crew_id,
-          //   });
-          // }
-
-          // Departure from the from station
+          
           if (row.departure_time) {
             formattedData.push({
               station: fromStation ? fromStation.station_code+`(${row.from_stn})` : row.from_stn,
@@ -278,34 +232,7 @@ function Chart() {
             });
           }
 
-          // // Sign-off time
-          // if (row.sign_off_time) {
-          //   formattedData.push({
-          //     station: toStation ? toStation.station_code+`(${row.to_stn})` : row.to_stn,
-          //     timestamp: row.sign_off_time,
-          //     rest: row.rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-          //     crew_id: row.crew_id,
-          //   });
-          // }
           
-          // Rest time between rows
-          // if (index > 0) {
-          //   const previousRow = response.data[index - 1];
-          //   if (previousRow.sign_off_time && row.sign_on_time) {
-          //     formattedData.push({
-          //       station: toStation ? toStation.station_code : row.to_stn,
-          //       timestamp: previousRow.sign_off_time,
-          //       rest: previousRow.rest, // Assuming previousRow.rest is 'hq_rest' or 'os_rest'
-          //       crew_id: previousRow.crew_id,
-          //     });
-          //     formattedData.push({
-          //       station: fromStation ? fromStation.station_code : row.from_stn,
-          //       timestamp: row.sign_on_time,
-          //       rest: row.hq_rest, // Assuming row.rest is 'hq_rest' or 'os_rest'
-          //       crew_id: row.crew_id,
-          //     });
-          //   }
-          // }
         });
 
         // Sort the data by timestamp

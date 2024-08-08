@@ -37,12 +37,15 @@ app.get("/links", async (req, res) => {
       res.status(500).send('Server Error');
     }
   });
-
+  app.get("/", async (req, res) => {
+    res.status(200).send("Hello")
+  });
 
   app.get("/data", async (req, res) => {
     try {
       
       const result = await pool.query('SELECT crew_no, to_stn, from_stn, sign_on_time, departure_time, arrival_time, sign_off_time FROM link_detail');
+      
       res.json(result.rows);
     } catch (error) {
       console.error(`Error fetching data for link_id`, error);
